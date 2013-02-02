@@ -22,8 +22,9 @@
         "valueOf"];
 
     var NativeDate = window.Date;
-    var startDate = new Date();
+    var startDate = new NativeDate();
     var speedupFactor = 5;
+    var factorAdjustment = 0; // used when the speedup factor changes and the startDate is reset....
     
     var CustomDate = function(){
         var args = [].slice.apply(arguments);
@@ -60,7 +61,7 @@
         {
             var realNowValue = this.internalDate.valueOf();
             var millisecondsSinceStart = realNowValue - startDate.valueOf();
-            var fakeNowValue = realNowValue + millisecondsSinceStart * (speedupFactor -1); // -1 because realNowVal already contains the real time difference
+            var fakeNowValue = realNowValue + factorAdjustment + millisecondsSinceStart * (speedupFactor -1); // -1 because realNowVal already contains the real time difference
             this.internalDate = new NativeDate(fakeNowValue);
         }
     };
@@ -91,6 +92,8 @@
     
     CustomDate.NativeDate = NativeDate;
     CustomDate.setSpeedupFactor = function(factor){
+        factorAdjustment = new CustomDate().valueOf() - startDate.valueOf();
+        startDate = new NativeDate();
         speedupFactor = factor;
     };
     
