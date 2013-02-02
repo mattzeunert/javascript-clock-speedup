@@ -97,6 +97,72 @@
         speedupFactor = factor;
     };
     
+    var showUi = true; // set to false by hideUi, in case document ready is triggered after calling hideUi
+    if (window.jQuery)
+    {
+        var $ = window.jQuery;
+        var container = $("<div>")
+            .css({
+                "position": "absolute",
+                "bottom": "1px",
+                "padding": "10px",
+                "background": "#fafaff",
+                "border": "1px solid #999",
+                "left": "1px"
+            })
+            .prop("title", "Use Date.hideUi() to hide this programmatically.");
+        var nowDiv = $("<div>")
+            .css("display", "inline-block");
+        container.append(nowDiv);
+        var increaseSpeedupButton = $("<button>")
+            .css("display", "inline-block")
+            .css("margin-left", "10px")
+            .click(function(){
+                speedupFactor *= 2;
+                speedupFactorInfo.text(speedupFactor + "x");
+            })
+            .text("+");
+        var decreaseSpeedupButton = $("<button>")
+            .css("display", "inline-block")
+             .click(function(){
+                speedupFactor /= 2;
+                speedupFactorInfo.text(speedupFactor + "x");
+            })
+            .text("-");
+        var speedupFactorInfo = $("<div>")
+            .css("display", "inline-block")
+            .css("margin-left", "2px")
+            .css("margin-right", "2px")
+            .text(speedupFactor + "x");
+        var hideUiButton = $("<button>")
+            .css("display", "inline-block")
+            .css("font-size", "10px")
+            .css("margin-left", "10px")
+            .click(function(){
+                CustomDate.hideUi();
+            })
+            .text("Close");
+            
+        container.append(increaseSpeedupButton, speedupFactorInfo, decreaseSpeedupButton, hideUiButton);  
+        var nowDivInterval = setInterval(function(){
+            var now = new CustomDate();
+            nowDiv.text(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" +
+                now.getDate() + " "+ now.toTimeString().split(" ")[0]);
+        }, 200);
+        
+        $(document).ready(function(){
+            if (showUi)
+            {
+                $("body").append(container);
+            }
+        })
+    }
+    
+    CustomDate.hideUi = function(){
+        container.remove();
+        showUi = false;
+    };
+    
     window.Date = CustomDate;
 })()
 
