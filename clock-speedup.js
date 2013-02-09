@@ -118,14 +118,14 @@
             .css("display", "inline-block")
             .css("margin-left", "10px")
             .click(function(){
-                speedupFactor *= 2;
+                CustomDate.setSpeedupFactor(speedupFactor * 2);
                 speedupFactorInfo.text(speedupFactor + "x");
             })
             .text("+");
         var decreaseSpeedupButton = $("<button>")
             .css("display", "inline-block")
              .click(function(){
-                speedupFactor /= 2;
+                CustomDate.setSpeedupFactor(speedupFactor / 2);
                 speedupFactorInfo.text(speedupFactor + "x");
             })
             .text("-");
