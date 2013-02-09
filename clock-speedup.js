@@ -23,7 +23,7 @@
 
     var NativeDate = window.Date;
     var startDate = new NativeDate();
-    var speedupFactor = 5;
+    var speedupFactor = 4;
     var factorAdjustment = 0; // used when the speedup factor changes and the startDate is reset....
     
     var CustomDate = function(){
@@ -143,7 +143,7 @@
             })
             .text("Close");
             
-        container.append(increaseSpeedupButton, speedupFactorInfo, decreaseSpeedupButton, hideUiButton);  
+        container.append(decreaseSpeedupButton, speedupFactorInfo, increaseSpeedupButton, hideUiButton);  
         var nowDivInterval = setInterval(function(){
             var now = new CustomDate();
             nowDiv.text(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" +
