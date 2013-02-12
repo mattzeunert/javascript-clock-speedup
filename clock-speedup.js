@@ -131,7 +131,7 @@
             .text("-");
         var speedupFactorInfo = $("<div>")
             .css({"display": "inline-block",
-                "margin-left": "2px,
+                "margin-left": "2px",
                 "margin-right": "2px",
                 "text-align": "center",
                 "min-width": "48px" // avoid buttons moving away from under the cursor
