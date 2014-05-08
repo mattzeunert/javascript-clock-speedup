@@ -25,7 +25,7 @@
     var startDate = new NativeDate();
     var speedupFactor = 4;
     var factorAdjustment = 0; // used when the speedup factor changes and the startDate is reset....
-    
+
     var CustomDate = function(){
         var args = [].slice.apply(arguments);
         var definedArgs = []; // need to filter because we use `args.join` later
@@ -37,13 +37,13 @@
             }
         }
         var args = definedArgs
-        
+
         if (! (args[0] instanceof CustomDate))
         {
             var argString;
             if (typeof args[0] === "string") // Date constructor accepts strings too...
             {
-                argString = '"' + args[0].replace(new RegExp('\"'), "\\\"") + '"'; 
+                argString = '"' + args[0].replace(new RegExp('\"'), "\\\"") + '"';
             }
             else
             {
@@ -55,8 +55,8 @@
         else
         {
             this.internalDate = new NativeDate(args[0].internalDate);
-        }       
-        
+        }
+
         if (args.length === 0) // adjust to fake "now"
         {
             var realNowValue = this.internalDate.valueOf();
@@ -65,7 +65,7 @@
             this.internalDate = new NativeDate(fakeNowValue);
         }
     };
-    
+
     for (var i=0; i<dateInstanceMethods.length; i++)
     {
         (function(){ // wrap in closure to keep scope
@@ -75,7 +75,7 @@
             };
         })();
     }
-        
+
     // Static methods...
     CustomDate.now = function(){
         return new CustomDate();
@@ -89,14 +89,14 @@
         return data.valueOf();
     };
     // -----------------
-    
+
     CustomDate.NativeDate = NativeDate;
     CustomDate.setSpeedupFactor = function(factor){
         factorAdjustment = new CustomDate().valueOf() - startDate.valueOf();
         startDate = new NativeDate();
         speedupFactor = factor;
     };
-    
+
     var showUi = true; // set to false by hideUi, in case document ready is triggered after calling hideUi
     if (window.jQuery)
     {
@@ -106,7 +106,7 @@
                 "position": "absolute",
                 "bottom": "1px",
                 "padding": "10px",
-                "background": "#fafaff",
+                "background": "#eee",
                 "border": "1px solid #999",
                 "left": "1px"
             })
@@ -145,14 +145,23 @@
                 CustomDate.hideUi();
             })
             .text("Close");
-            
-        container.append(decreaseSpeedupButton, speedupFactorInfo, increaseSpeedupButton, hideUiButton);  
+
+        container.append(decreaseSpeedupButton, speedupFactorInfo, increaseSpeedupButton, hideUiButton);
         var nowDivInterval = setInterval(function(){
             var now = new CustomDate();
-            nowDiv.text(now.getFullYear() + "-" + (now.getMonth() + 1) + "-" +
-                now.getDate() + " "+ now.toTimeString().split(" ")[0]);
+
+            var month = now.getMonth() + 1;
+            if (month < 10){
+               month = '0' + month;
+            }
+            var day = now.getDate();
+            if (day < 10){
+               day = '0' + day;
+            }
+            nowDiv.text(now.getFullYear() + "-" + (month) + "-" +
+                day + " "+ now.toTimeString().split(" ")[0]);
         }, 200);
-        
+
         $(document).ready(function(){
             if (showUi)
             {
@@ -160,12 +169,12 @@
             }
         })
     }
-    
+
     CustomDate.hideUi = function(){
         container.remove();
         showUi = false;
     };
-    
+
     window.Date = CustomDate;
 })()
 

@@ -2,8 +2,22 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 
 <script src="clock-speedup.js"></script>
+<style>
+ul {
+  padding-left: 5px;
+}
+li {
+    list-style: none;
+    line-height: 24px;
+}
+</style>
+<ul id="recent-times">
+
+</ul>
 <script>
     setInterval(function(){
-        console.log(new Date().toString());
+        var li = $('<li>').text(new Date().toString());
+        $("#recent-times")
+            .append(li);
     },1000);
 </script>
