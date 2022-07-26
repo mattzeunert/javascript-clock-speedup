@@ -2,9 +2,9 @@
 // For example, if you wait one second, the date object could report a time difference of 10 seconds.
 // Only the Date object will be affected, not setTimeout or setInterval.
 // When creating a new Date object with year/month/day values but no time values the real time will be used as the result time, not the fake time.
-// This code uses eval and is not save for production! It's meant to simulate real use for debugging purposes.
 
 (function(){
+
     // from https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/prototype#Methods
     // Can't get the list from the Date object because of DontEnum
     var dateInstanceMethods = [
@@ -23,7 +23,7 @@
 
     var NativeDate = window.Date;
     var startDate = new NativeDate();
-    var speedupFactor = 4;
+    var speedupFactor = 1;
     var factorAdjustment = 0; // used when the speedup factor changes and the startDate is reset....
 
     var CustomDate = function(){
@@ -49,8 +49,10 @@
             {
                 argString = args.join(",");
             }
-            // Use eval, because http://stackoverflow.com/questions/181348/instantiating-a-javascript-object-by-calling-prototype-constructor-apply
-            this.internalDate = eval("new NativeDate(" + argString + ")");
+            var F = function(){};
+            F.prototype = NativeDate.prototype;
+            this.internalDate = new NativeDate()
+            this.internalDate.constructor.apply(this.internalDate, args);
         }
         else
         {
