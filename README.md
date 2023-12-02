@@ -3,7 +3,6 @@ javascript-clock-speedup
 
 Simulates a faster `Date` object. You can use this for debugging, for example to test how your code reacts to date changes.
 
-The code uses `eval`, it's not safe for production.
 
 ## How to use
 
